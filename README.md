@@ -25,6 +25,26 @@ Each operation supports optional **Actions Before Extract** — a sequence of st
 - **Scroll to Bottom** — trigger infinite scroll / lazy loading
 - **Wait (ms)** — pause for a fixed duration
 
+## Installation
+
+### Via n8n UI (recommended)
+
+1. Go to **Settings → Community Nodes**
+2. Click **Install a community node**
+3. Enter `n8n-nodes-camoufox` and click **Install**
+
+### Via CLI
+
+```bash
+# npm
+npm install n8n-nodes-camoufox
+
+# pnpm (inside your n8n installation directory)
+pnpm add n8n-nodes-camoufox
+```
+
+Then restart n8n.
+
 ## Setup
 
 ### 1. Run Camoufox as a Docker service
