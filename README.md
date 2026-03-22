@@ -47,38 +47,23 @@ Then restart n8n.
 
 ## Setup
 
-### 1. Run Camoufox as a Docker service
+### 1. Run the Camoufox container
 
-A Docker setup is included in the `camoufox/` directory of the n8n project:
+See [camoufox-docker](https://github.com/LPilic/camoufox-docker) for the Docker container setup (Dockerfile, start script, and docker-compose example).
 
-```yaml
-# docker-compose.yaml
-camoufox:
-  build: ./camoufox
-  container_name: camoufox
-  restart: always
-  ports:
-    - "9222:9222"
-  environment:
-    CAMOUFOX_PORT: 9222
-```
+Quick start:
 
 ```bash
+git clone https://github.com/LPilic/camoufox-docker.git camoufox
 docker compose build camoufox
 docker compose up -d camoufox
 ```
 
-Check the logs for the WebSocket endpoint (includes a random token):
+Get the WebSocket endpoint from the logs (token changes on each restart):
 
 ```bash
 docker logs camoufox
 # Websocket endpoint: ws://localhost:9222/9fdb26279ee5d7d04595337a5acec1c7
-```
-
-Or extract just the endpoint:
-
-```bash
-docker logs camoufox 2>&1 | grep "Websocket endpoint" | tail -1
 ```
 
 ### 2. Configure n8n
