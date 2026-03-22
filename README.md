@@ -49,7 +49,7 @@ Then restart n8n.
 
 ### 1. Run Camoufox as a Docker service
 
-A Docker setup is included in the `camoufox/` directory of the n8n-plus project:
+A Docker setup is included in the `camoufox/` directory of the n8n project:
 
 ```yaml
 # docker-compose.yaml
@@ -72,7 +72,13 @@ Check the logs for the WebSocket endpoint (includes a random token):
 
 ```bash
 docker logs camoufox
-# Websocket endpoint: ws://localhost:9222/abc123...
+# Websocket endpoint: ws://localhost:9222/9fdb26279ee5d7d04595337a5acec1c7
+```
+
+Or extract just the endpoint:
+
+```bash
+docker logs camoufox 2>&1 | grep "Websocket endpoint" | tail -1
 ```
 
 ### 2. Configure n8n
