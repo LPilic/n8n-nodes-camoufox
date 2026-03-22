@@ -8,6 +8,7 @@ import {
 import { Page } from 'playwright-core';
 
 import {
+	resolveWsEndpoint,
 	connectToCamoufox,
 	closeCamoufoxSession,
 	scrapeTable,
@@ -88,7 +89,7 @@ export class Camoufox implements INodeType {
 		const returnData: INodeExecutionData[] = [];
 
 		const credentials = await this.getCredentials('camoufoxApi');
-		const wsEndpoint = credentials.wsEndpoint as string;
+		const wsEndpoint = await resolveWsEndpoint(credentials.wsEndpoint as string);
 		const ignoreHttpsErrors = credentials.ignoreHttpsErrors as boolean;
 
 		let proxy: ProxyConfig | undefined;

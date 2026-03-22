@@ -1,3 +1,4 @@
+import http from 'http';
 import { firefox, Browser, Page, BrowserContext } from 'playwright-core';
 import { IExecuteFunctions, NodeOperationError } from 'n8n-workflow';
 
@@ -12,6 +13,36 @@ export interface CamoufoxSession {
 	browser: Browser;
 	context: BrowserContext;
 	page: Page;
+}
+
+/**
+ * Resolve a WebSocket endpoint. If the URL has no path (or just "/"),
+ * auto-discover the token by querying the /json HTTP endpoint.
+ */
+export async function resolveWsEndpoint(wsEndpoint: string): Promise<string> {
+	const url = new URL(wsEndpoint);
+	if (url.pathname && url.pathname !== '/') {
+		return wsEndpoint;
+	}
+
+	const httpUrl = `http://${url.hostname}:${url.port || '9222'}/json`;
+
+	const body = await new Promise<string>((resolve, reject) => {
+		const req = http.get(httpUrl, (res) => {
+			let data = '';
+			res.on('data', (chunk: Buffer) => { data += chunk.toString(); });
+			res.on('end', () => resolve(data));
+		});
+		req.on('error', reject);
+		req.setTimeout(5000, () => { req.destroy(); reject(new Error('Timeout discovering WebSocket token')); });
+	});
+
+	const json = JSON.parse(body) as { wsEndpointPath?: string };
+	if (!json.wsEndpointPath) {
+		throw new Error(`Could not discover WebSocket path from ${httpUrl}`);
+	}
+
+	return `ws://${url.hostname}:${url.port || '9222'}${json.wsEndpointPath}`;
 }
 
 export async function connectToCamoufox(

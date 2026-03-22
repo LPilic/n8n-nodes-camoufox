@@ -13,8 +13,8 @@ export class CamoufoxApi implements ICredentialType {
 			displayName: 'WebSocket Endpoint',
 			name: 'wsEndpoint',
 			type: 'string',
-			default: 'ws://localhost:3000',
-			description: 'The Playwright WebSocket endpoint exposed by Camoufox (e.g. ws://host:port/playwright)',
+			default: 'ws://localhost:9222',
+			description: 'The Playwright WebSocket endpoint exposed by Camoufox. Use the full URL with token (e.g. ws://host:9222/token) or just the base URL (e.g. ws://host:9222) to auto-discover the token.',
 			required: true,
 		},
 		{

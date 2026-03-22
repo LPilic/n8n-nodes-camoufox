@@ -59,13 +59,6 @@ docker compose build camoufox
 docker compose up -d camoufox
 ```
 
-Get the WebSocket endpoint from the logs (token changes on each restart):
-
-```bash
-docker logs camoufox
-# Websocket endpoint: ws://localhost:9222/9fdb26279ee5d7d04595337a5acec1c7
-```
-
 ### 2. Configure n8n
 
 Add `n8n-nodes-camoufox` to `N8N_CUSTOM_EXTENSIONS`:
@@ -76,7 +69,7 @@ N8N_CUSTOM_EXTENSIONS: /home/node/.n8n/custom-nodes/n8n-nodes-camoufox
 
 Restart n8n, then create a **Camoufox Connection** credential:
 
-- **WebSocket Endpoint**: `ws://camoufox:9222/<token>` (get the token from `docker logs camoufox`)
+- **WebSocket Endpoint**: `ws://camoufox:9222` — the node will auto-discover the token via the `/json` API. You can also provide the full URL with token (e.g. `ws://camoufox:9222/<token>`).
 - **Ignore HTTPS Errors**: enable if behind a corporate proxy or using self-signed certs
 
 Optional proxy settings are also available in the credential.
